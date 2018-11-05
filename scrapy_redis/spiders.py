@@ -4,7 +4,7 @@ from scrapy.spiders import Spider, CrawlSpider
 
 from . import connection, defaults
 from .utils import bytes_to_str
-
+import time
 
 class RedisMixin(object):
     """Mixin class to implement reading urls from a redis queue."""
@@ -15,6 +15,8 @@ class RedisMixin(object):
     is_empty_run = None
     empty_run_count = 0
     empty_run_total_count = 0
+    idle_start_time = int(time.time())
+    idle_time = 10
 
     # Redis client placeholder.
     server = None
@@ -148,13 +150,20 @@ class RedisMixin(object):
         # empty run
         if not self.is_empty_run :
             raise DontCloseSpider
-        # not
+        # not empty run
         else :
+            if int(time.time()) - self.idle_start_time < self.idle_time: #self.idle_time is greater than 5, 5 this value did not find where it appears
             # If the number of empty runs exceeds the set value, the crawler is closed.
-            if self.empty_run_count > self.empty_run_total_count:
-                # finish spider
-                pass
+                if self.empty_run_count > self.empty_run_total_count:
+                    # finish spider
+                    self.logger.debug("spider finish")
+                    pass
+                else:
+                    self.idle_start_time = int(time.time())
+                    raise DontCloseSpider
             else:
+                self.empty_run_count = 0
+                self.idle_start_time = int(time.time())
                 raise DontCloseSpider
 
 

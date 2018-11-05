@@ -12,7 +12,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="scrapy-redis-noemptyrun",
-    version="1.0",
+    version="1.6",
     keywords=("pip", "scrapy-redis-noemptyrun","featureextraction"),
     description="deal with scrapy-redis's the problem of empty run",
     long_description="",
