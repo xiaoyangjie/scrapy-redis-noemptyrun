@@ -11,9 +11,9 @@
 from setuptools import setup, find_packages            
 
 setup(
-    name="scrapy-redis-noemptyrun",
+    name="scrapy_redis_nonempty_run",
     version="1.6",
-    keywords=("pip", "scrapy-redis-noemptyrun","featureextraction"),
+    keywords=("pip", "scrapy-redis-nonempty_run"),
     description="deal with scrapy-redis's the problem of empty run",
     long_description="",
     license="MIT Licence",
